@@ -1,4 +1,4 @@
-import fs from "node:fs";
+import * as fs from "node:fs";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizePath } from "vite";
@@ -17,7 +17,7 @@ function getPluginPath() {
 /**
  * @returns {import('vite').Plugin}
  */
-export default function svelteRerender() {
+export function svelteRerender() {
   /**
    * @type {import('vite').ResolvedConfig}
    */
@@ -43,6 +43,7 @@ export default function svelteRerender() {
       if (importee.startsWith("virtual:svelte-rerender-path:")) {
         return importee.replace("virtual:svelte-rerender-path:", pluginPath);
       }
+      return;
     },
 
     async load(id, options) {
@@ -60,6 +61,7 @@ export default function svelteRerender() {
           );
         }
       }
+      return;
     },
 
     transform(code, id, options) {
@@ -71,6 +73,7 @@ export default function svelteRerender() {
           code: `${code}\nimport('virtual:svelte-rerender-path:/rerender.js')`,
         };
       }
+      return;
     },
   };
 }
@@ -80,6 +83,6 @@ const postfixRE = /[?#].*$/s;
 /**
  * @param {string} url
  */
-export function cleanUrl(url) {
+function cleanUrl(url) {
   return url.replace(postfixRE, "");
 }
