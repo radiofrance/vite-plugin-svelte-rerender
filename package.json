@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-svelte-rerender",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
   "main": "src/index.js",
   "exports": {
